@@ -12,7 +12,7 @@ Source: Mendeley Data, V3, DOI 10.17632/k6cpmwybk3.3 (CC BY 4.0), Renmin Hospita
 Group08_BUSI_WHU_CSE475/
   README.md
   report/
-    task1/Group08_BUSIWHU_task1_report.pdf   (.docx also included)
+    task1/Group08_BUSIWHU_task1_report.pdf
   code/
     task1/Group08_BUSIWHU_task1_eda.ipynb
     task1/eda_outputs/                        (EDA figures + tables from the notebook)
