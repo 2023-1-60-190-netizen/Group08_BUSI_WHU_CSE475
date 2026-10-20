@@ -1,0 +1,15 @@
+Item,Value
+Name,BUSI-WHU
+Source,"Renmin Hospital of Wuhan University (Mendeley Data, v3, CC BY 4.0)"
+Area,Medical imaging - breast ultrasound
+Problem type,Binary classification (benign/malignant) + segmentation
+Total images,927
+Classes,2
+Class counts,"{'benign': 560, 'malignant': 367}"
+Masks available,927 (all matched)
+Image formats,BMP
+Colour modes,L
+Unique resolutions,"see D_size.png (varied, 243-2400 px wide)"
+Mean file size (KB),188.9
+Patients (if xlsx),816
+Age range (if xlsx),not in patient file
