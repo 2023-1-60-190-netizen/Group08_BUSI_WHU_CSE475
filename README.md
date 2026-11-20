@@ -12,31 +12,37 @@ Source: Mendeley Data, V3, DOI 10.17632/k6cpmwybk3.3 (CC BY 4.0), Renmin Hospita
 Group08_BUSI_WHU_CSE475/
   README.md
   report/
-    task1/Group08_BUSIWHU_task1_report.pdf
+    task1/Group08_BUSIWHU_task1_report.pdf   (.docx also included)
+    task2/Group08_BUSIWHU_task2_report.pdf   (.docx also included)
   code/
     task1/Group08_BUSIWHU_task1_eda.ipynb
-    task1/eda_outputs/                        (EDA figures + tables from the notebook)
+    task1/eda_outputs/                        (EDA figures + tables)
+    task2/Group08_BUSIWHU_task2_baselines.ipynb
+    task2/Group08_BUSIWHU_task2_proposed_model.ipynb
+    task2/task2_outputs/                      (results tables, curves, figures, split file)
   related_work/
     Group08_BUSIWHU_related_work_table.pdf    (.csv also included)
     papers/                                   (the 5 paper PDFs)
 ```
-Task 2 and Task 3 folders (`code/task2`, `code/task3`, `report/task2`, `report/task3`, `models/`) will be added in later submissions.
+Task 3 folders (`code/task3`, `report/task3`, `models/`) will be added in the final submission.
 
-## Task 1 (due 21 Oct 2026)
-- **Image EDA (A–G):** `code/task1/Group08_BUSIWHU_task1_eda.ipynb`
-- **Related-work table + research gap:** `related_work/Group08_BUSIWHU_related_work_table.pdf`
-- **Short report:** `report/task1/Group08_BUSIWHU_task1_report.pdf`
+## How to run (Kaggle notebook, GPU on, dataset attached)
+1. Task 1: `code/task1/Group08_BUSIWHU_task1_eda.ipynb` (Run All).
+2. Task 2, step 1: `code/task2/Group08_BUSIWHU_task2_baselines.ipynb` (Run All). It writes everything to `/kaggle/working/task2_outputs`.
+3. Task 2, step 2: `code/task2/Group08_BUSIWHU_task2_proposed_model.ipynb` (Run All). To compare with all baselines, add the baseline notebook's output as an input (or copy `baseline_runs.csv` and `baseline_test_probs.npz` into its `task2_outputs` folder); it finds them automatically.
+4. Requirements: `torch torchvision scikit-learn pandas numpy pillow matplotlib seaborn openpyxl` (all preinstalled on Kaggle). Pretrained ImageNet weights need Kaggle "Internet" turned on; otherwise the notebooks fall back to random initialisation and say so.
 
-## How to run the EDA notebook
-1. Download the dataset from Mendeley Data (`BUSI-WHU.zip` and `Patient_infos_BUSI-WHU.xlsx`) and extract it.
-2. Set `BUSI_DIR` (image/mask folder) and `BUSI_XLSX` (patient file) at the top of the notebook, or as environment variables.
-3. `pip install pandas numpy pillow matplotlib seaborn plotly scipy scikit-learn scikit-image openpyxl`
-4. Run all cells. Figures and tables are saved in `eda_outputs/`.
-
-## Key Task 1 findings
+## Task 1 – key findings
 - 927 grayscale BMP images, all with masks and labels; no exact duplicates.
-- Benign 60.4% / malignant 39.6% (ratio 1.53:1), so we use macro-F1, per-class recall, ROC/PR.
-- Sizes vary (243–2400 px wide) and pixel-per-cm scale varies (57–480), so images are resized with padding.
-- 38 patients have 2–9 images, so all splits are grouped by patient (StratifiedGroupKFold).
+- Benign 60.4% / malignant 39.6% (ratio 1.53:1), so macro-F1, per-class recall and ROC/PR are used.
+- 38 patients have 2–9 images, so all splits are grouped by patient.
 - Malignant tumours are larger (median area 1.25 vs 0.56 cm²) and slightly less convex.
 - Gap: BUSI-WHU papers do segmentation only; attention models are rarely evaluated with patient-grouped splits, 5-fold CV, significance tests and Grad-CAM together.
+
+## Task 2 – setup
+- Split: patient-wise and stratified, 617 / 155 / 155 images (train / val / test), no patient in two sets; saved as `splits.csv`.
+- Preprocessing: grayscale, square letterbox to 224×224, ImageNet normalisation; light augmentation (flip, rotation, shift, scale, brightness/contrast); class-weighted loss.
+- Baselines: SimpleCNN (from scratch), ResNet50, DenseNet121, EfficientNet-B0.
+- Proposed model: CBAM-ResNet50 (channel + spatial attention after each of the four residual stages), standard and residual variants; the variant with the higher mean validation macro-F1 is the proposed model.
+- Every model is trained with 3 seeds (42, 7, 2024) and reported as mean ± std, because a single run on the small test set varies by several points.
+- Results: see `code/task2/task2_outputs/` and the Task 2 report.

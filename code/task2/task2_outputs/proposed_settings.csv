@@ -1,0 +1,13 @@
+Setting,Value
+Backbone,ResNet50 (ImageNet weights if available)
+Attention,"CBAM (channel + spatial, r=16, 7x7) after each of 4 stages; standard and residual variants"
+Input,"224x224 letterboxed grayscale, 3 channels, ImageNet normalisation"
+Augmentation,"flip, rotation +-10, shift 5%, scale 0.9-1.1, brightness/contrast"
+Loss,Cross-entropy with class weights
+Optimiser,"AdamW, weight decay 1e-4"
+LR (backbone / attention+head),1e-4 / 5e-4
+Schedule,Cosine annealing
+Epochs / early stop,"25 max, patience 6 on validation macro-F1"
+Batch size,32
+Split,"patient-wise, stratified (train / val / test about 68 / 16 / 16 %)"
+Seeds,"42, 7, 2024"

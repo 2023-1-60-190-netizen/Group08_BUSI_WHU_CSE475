@@ -1,0 +1,3 @@
+variant,d_f1_macro,d_roc_auc,d_pr_auc,d_recall_malignant,seeds_better_f1
+CBAM-ResNet50 (standard),-0.039 (sd 0.084),-0.051 (sd 0.123),-0.050 (sd 0.182),-0.156 (sd 0.193),1 of 3
+CBAM-ResNet50 (residual),+0.001 (sd 0.020),-0.010 (sd 0.059),-0.001 (sd 0.081),-0.041 (sd 0.127),1 of 3
